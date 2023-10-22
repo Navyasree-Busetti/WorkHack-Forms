@@ -1,0 +1,22 @@
+{% extends 'index.html' %}
+{% block content %}
+    <div class="form_list">
+        <h1>Forms</h1>
+        <table class="formsList" cellspacing="0">
+            <tr style="height: 35px;">
+                <th width="33%">Name</td>
+                <th width="33%">Description</td>
+                <th width="33%">Status</td>
+            </tr>
+            {% for form in forms %}
+            <tr id="id-{{form.id}}" style="height: 35px;">
+                <td width="33%" onclick="selected"><a href="/form/{{form.id}}">{{ form['name'] }}</a></td>
+                <td width="33%">{{ form['description'] }}</td>
+                <td width="33%">{{ form['status'] }}</td>
+            </tr>
+            {% endfor %}
+            
+        </table>
+        
+    </div>
+{% endblock content %}

@@ -1,0 +1,19 @@
+{% extends 'index.html' %}
+{% block content %}
+    <div class="form-cnt">
+        <div class="header-cnt">
+            <div class="info">
+                <div class="title">{{form.name}}</div>
+                <div class="description">{{form.description}}</div>
+            </div>
+            <div class="actions">
+                {% for action in form['actions'] %}
+                    <span class="action formActions" onclick="performAction({{action}}, {{form.id}})">{{action}}</button>
+                {% endfor %}
+            </div>
+            
+        </div>
+        
+
+    </div>
+{% endblock content %}

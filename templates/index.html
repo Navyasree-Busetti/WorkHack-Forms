@@ -1,0 +1,18 @@
+<html>
+<head>
+    <title>Forms</title>
+    <link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
+    <script src="{{ url_for('script', path='/index.js') }}"></script>
+    <script src="{{ url_for('script', path='/network.js') }}"></script>
+</head>
+<body>
+    <div class="nav_header">
+        <button class="tab admin" onclick="selectTab('admin')"><a href="/forms">Admin Actions</a></button>
+        <button class="tab user" onclick="selectTab('user')"><a href="/forms?type='published'">User Actions</a></button>
+    </div>
+    <div class="tab_content">
+        {% block content %}
+        {% endblock content %}
+    </div>
+</body>
+</html>
