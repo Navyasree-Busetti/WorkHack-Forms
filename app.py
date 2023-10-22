@@ -63,8 +63,8 @@ def get_form(request: Request, formId: int):
                 form.actions = ['Edit', 'Publish', 'Delete']
         else:
             form.actions = ['Edit', 'Unpublish', 'Delete']
-
-        return templates.TemplateResponse("form_detail.html", {"request": request, "form": form})
+        return form
+        #return templates.TemplateResponse("form_detail.html", {"request": request, "form": form})
     else:
         return {"message": "Invalid form"}
 
@@ -76,31 +76,31 @@ def delete_form(formId: int):
     else:
         return {"message": "Invalid form"}
     
-@app.put("/form/{formId}?action=publish")
-def publish_form(formId: int):
+@app.put("/form/{formId}/actions")
+def publish_form(formId: int, action: str ='publish'):
     if formId in forms:
-        forms[formId].status = 'published'
-        return {"message": "form published successfully"}
-    else:
-        return {"message": "Invalid form"}
-    
-@app.put("/form/{formId}?action=unpublish")
-def unpublish_form(formId: int):
-    if formId in forms:
-        forms[formId].status = 'draft'
-        return {"message": "form unpublished successfully"}
+        if(action == 'publish'):
+            forms[formId].status = 'published'
+        else:
+            if forms[formId].status == 'published':
+                forms[formId].status = 'draft'
+            else:
+                return {"message": "form status doesn't support the requested action"}
+            
+        return {"message": "form action successful"}
     else:
         return {"message": "Invalid form"}
     
 @app.put("/form/{formId}/submission")
 def submit_form(formId: int, submission: Submission):
+    submission.formId = formId
     if formId in forms:
         form = forms[formId]
         if form.status == 'published':
             if(submissions.get(formId) == None):
                 submissions[formId] = []
             submissions[formId].append(submission)
-            return {"message": "form published successfully"}
+            return {"message": "form data submitted successfully"}
         else:
             return {"message": "form not yet published"}
     else:
